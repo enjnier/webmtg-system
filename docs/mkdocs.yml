@@ -1,0 +1,10 @@
+## Project information
+site_name: WebMTG System Documentation
+site_dir: build/projects/
+docs_dir: projects
+
+## Configuration
+theme:
+  name: material
+  # custom_dir: overrides
+  language: "ja"
