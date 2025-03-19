@@ -111,6 +111,7 @@ theme:
 ```
 
 ローカルサーバーを起動する。
+記載のURLにアクセスするとドキュメントが表示される。
 
 ```bash
 $ uv run mkdocs serve
@@ -120,4 +121,23 @@ INFO    -  Documentation built in 0.22 seconds
 INFO    -  [23:27:07] Watching paths for changes: 'projects', 'mkdocs.yml'
 INFO    -  [23:27:07] Serving on http://127.0.0.1:8000/
 INFO    -  [23:27:11] Browser connected: http://127.0.0.1:8000/
+```
+
+8000ポートはバックエンド（FastAPI）で使用するので、8100ポートで起動するように`pyproject.toml`に以下の記述を追加する。
+
+```toml
+[tool.rye.scripts]
+serve = "mkdocs serve -a 127.0.0.1:8100"
+```
+
+これで`pyproject.toml`のあるディレクトリで以下のコマンドを実行すると、ローカルサーバーが起動する。
+
+```bash
+$ rye run serve
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+INFO    -  Documentation built in 0.20 seconds
+INFO    -  [23:47:21] Watching paths for changes: 'projects', 'mkdocs.yml'
+INFO    -  [23:47:21] Serving on http://127.0.0.1:8100/
+INFO    -  [23:47:25] Browser connected: http://127.0.0.1:8100/
 ```
