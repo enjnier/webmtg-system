@@ -1,0 +1,12 @@
+services:
+  # ドキュメントサービス
+  document:
+    container_name: document
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    volumes:
+      - ./docs/projects:/app/projects
+    restart: unless-stopped
