@@ -9,4 +9,5 @@ services:
       - "8100:8100"
     volumes:
       - ./docs/projects:/app/projects
+      - ./docs/mkdocs.yml:/app/mkdocs.yml
     restart: unless-stopped

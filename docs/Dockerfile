@@ -2,14 +2,14 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY pyproject.toml .
-COPY README.md .
-COPY mkdocs.yml .
+# requirements.txtをコピー
+COPY requirements.txt .
 
-# 必要なパッケージをインストール
-RUN pip install --no-cache-dir mkdocs mkdocs-material mkdocs-glightbox mkdocs-table-reader-plugin mkdocs-monorepo-plugin
+# 依存関係をインストール
+RUN pip install --no-cache-dir -r requirements.txt
 
 # コンテンツをコピー
+COPY mkdocs.yml .
 COPY projects/ ./projects/
 
 # 8100ポートを公開
