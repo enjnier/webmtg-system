@@ -1,10 +1,149 @@
 ## Project information
 site_name: WebMTG System Documentation
+site_description: Web会議システムのドキュメント
+site_author: enjnier
 site_dir: build/projects/
 docs_dir: projects
+
+## Repository
+repo_name: enjnier/webmtg-system
+repo_url: https://github.com/enjnier/webmtg-system
 
 ## Configuration
 theme:
   name: material
-  # custom_dir: overrides
   language: "ja"
+  font:
+    text: Noto Sans JP
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: ダークモードに切り替え
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: ライトモードに切り替え
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+
+## Plugins
+plugins:
+  - monorepo
+  - glightbox
+  - search:
+      separator: '[\s\-\.]+'
+  - table-reader:
+      data_path: "tables"
+      base_path: "config_dir"
+
+## Assets
+extra_css:
+  - static/css/override.css
+
+# Navigation
+nav:
+  - ホーム: index.md
+  - プロジェクト概要:
+    - システム概要: overview/index.md
+    - アーキテクチャ: overview/architecture.md
+  - 技術スタック: tech-stack/index.md
+  - 機能仕様:
+    - 機能一覧: features/index.md
+    - 認証システム: features/authentication.md
+    - 会議室管理: features/room-management.md
+    - 音声・ビデオ通信: features/audio-video.md
+    - 画面共有: features/screen-sharing.md
+    - チャット機能: features/chat.md
+  - 開発ガイド:
+    - 環境構築: development/setup.md
+    - コーディング規約: development/coding-standards.md
+    - テスト手順: development/testing.md
+    - デバッグ方法: development/debugging.md
+  - APIリファレンス:
+    - API概要: api/index.md
+    - エンドポイント一覧: api/endpoints.md
+    - 認証API: api/auth.md
+    - 会議室API: api/rooms.md
+    - ユーザーAPI: api/users.md
+  - 運用・デプロイメント:
+    - デプロイメント手順: operations/deployment.md
+    - 監視とログ: operations/monitoring.md
+    - バックアップと復旧: operations/backup-recovery.md
+
+## Extensions
+markdown_extensions:
+  ### Python-Markdown ----------------------------------------------------------------------
+  - markdown.extensions.abbr:
+  - markdown.extensions.admonition:
+  - markdown.extensions.attr_list:
+  - markdown.extensions.codehilite:
+      linenums: true
+  - markdown.extensions.def_list:
+  - markdown.extensions.footnotes:
+  - markdown.extensions.md_in_html:
+  - markdown.extensions.sane_lists:
+  - markdown.extensions.toc:
+      toc_depth: 2-3
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify { kwds: { case: lower } }
+  ### PyMdown-Extensions -------------------------------------------------------------------
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+  - pymdownx.caret:
+  - pymdownx.critic:
+  - pymdownx.details:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.escapeall:
+      hardbreak: True
+      nbsp: True
+  - pymdownx.highlight:
+      guess_lang: true
+      linenums: true
+  - pymdownx.inlinehilite:
+  - pymdownx.keys:
+      key_map: {}
+  - pymdownx.magiclink:
+  - pymdownx.mark:
+  - pymdownx.progressbar:
+  - pymdownx.saneheaders:
+  - pymdownx.smartsymbols:
+  - pymdownx.snippets:
+      base_path: projects/snippets
+  - pymdownx.striphtml:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: True
+      clickable_checkbox: True
+  - pymdownx.tilde:
+  ### Other --------------------------------------------------------------------------------
+  # - mdx_tableau
+
+## Reference
+# https://python-markdown.github.io/extensions/
+# https://squidfunk.github.io/mkdocs-material/
+# https://facelessuser.github.io/pymdown-extensions/
+# https://mermaid-js.github.io/mermaid/#/
+# https://timvink.github.io/mkdocs-table-reader-plugin/

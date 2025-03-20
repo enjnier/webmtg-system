@@ -1,0 +1,64 @@
+/* default 61rem -> 70rem */
+.md-grid {
+  max-width: 70rem;
+}
+
+/* default 12.1rem -> 13rem */
+.md-sidebar {
+  width: 13rem;
+}
+
+/* default 11.5rem -> 12.5rem */
+@supports selector(::-webkit-scrollbar) {
+  [dir="ltr"] .md-sidebar__inner {
+    padding-right: calc(100% - 12.5rem);
+  }
+
+  [dir="rtl"] .md-sidebar__inner {
+    padding-right: calc(100% - 12.5rem);
+  }
+}
+
+.md-typeset {
+  font-size: 0.7rem;
+}
+
+.md-content p,
+.md-content li {
+  font-size: 0.7rem;
+}
+
+.md-content .footnote p {
+  font-size: 0.64rem;
+}
+
+thead {
+  background-color: dimgray;
+  color: #fff;
+}
+
+.md-typeset a {
+  margin: 0 3px;
+}
+
+.md-typeset code {
+  font-size: 12.6px;
+  color: var(--md-code-hl-special-color);
+}
+
+.md-typeset pre > code {
+  font-size: 12.6px;
+  color: initial;
+}
+
+.highlight > span {
+  color: var(--md-code-hl-special-color) !important;
+}
+
+.highlighttable tr {
+  font-size: 0.75rem;
+}
+
+.highlighttable .linenos {
+  font-size: 12.6px;
+}
