@@ -1,0 +1,51 @@
+# Docs
+# https://github.com/DavidAnson/markdownlint/blob/a852407c887ec60949aa5365ed964bab833f962f/doc/Rules.md
+
+# MD001/heading-increment : Heading levels should only increment by one level at a time : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md001.md
+MD001: false
+
+# MD007/ul-indent : Unordered list indentation : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md007.md
+MD007:
+  # Spaces for indent
+  indent: 4
+  # Whether to indent the first level of the list
+  start_indented: false
+  # Spaces for first level indent (when start_indented is set)
+  start_indent: 4
+
+# MD009/no-trailing-spaces : Trailing spaces : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md009.md
+MD009:
+  # Spaces for line break
+  br_spaces: 2
+  # Allow spaces for empty lines in list items
+  list_item_empty_lines: false
+  # Include unnecessary breaks
+  strict: false
+
+# MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md013.md
+MD013: false
+
+# MD024/no-duplicate-heading : Multiple headings with the same content : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md024.md
+MD024: false
+
+# MD033/no-inline-html : Inline HTML : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md033.md
+MD033: false
+
+# MD036/no-emphasis-as-heading : Emphasis used instead of a heading : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md036.md
+MD036: false
+
+# MD040/fenced-code-language : Fenced code blocks should have a language specified : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md040.md
+MD040:
+  # List of languages
+  allowed_languages: []
+  # Require language only
+  language_only: false
+
+# MD041/first-line-heading/first-line-h1 : First line in a file should be a top-level heading : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md041.md
+MD041: false
+
+# MD045/no-alt-text : Images should have alternate text (alt text) : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md045.md
+MD045: false
+
+# MD046/code-block-style : Code block style : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md046.md
+MD046: false
