@@ -14,7 +14,7 @@
 
     システム、アーキテクチャ、主要機能の概要を説明します
 
-- :material-tools:{ .lg .middle } **[技術スタック](overview/tech-stack.md)**
+- :material-tools:{ .lg .middle } **[技術スタック](tech-stack/key-technologies.md)**
 
     使用している技術とツールの詳細について説明します
 

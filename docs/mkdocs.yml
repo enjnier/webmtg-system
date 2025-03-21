@@ -60,7 +60,8 @@ nav:
   - プロジェクト概要:
     - システム概要: overview/index.md
     - アーキテクチャ: overview/architecture.md
-  - 技術スタック: tech-stack/index.md
+  - 技術スタック:
+    - 主要技術: tech-stack/key-technologies.md
   - 機能仕様:
     - 機能一覧: features/index.md
     - 認証システム: features/authentication.md
