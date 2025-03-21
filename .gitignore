@@ -1,0 +1,62 @@
+# Editor/IDE specific files
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# VSCode settings
+.vscode/*
+!.vscode/extensions.json
+!.vscode/*.sample
+.vscode/launch.json
+.vscode/settings.json
+
+# Documentation (MkDocs)
+docs/site/
+docs/.rye/
+docs/__pycache__/
+docs/**/__pycache__/
+
+# Python general
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv
+env/
+venv/
+.pytest_cache/
+
+# Logs
+logs/
+*.log
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Temporary files
+*.bak
+*.tmp
+*~
