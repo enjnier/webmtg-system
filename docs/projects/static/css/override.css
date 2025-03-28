@@ -1,40 +1,78 @@
-/* default 61rem -> 70rem */
 .md-grid {
-  max-width: 70rem;
-}
-
-/* default 12.1rem -> 13rem */
-.md-sidebar {
-  width: 13rem;
-}
-
-/* default 11.5rem -> 12.5rem */
-@supports selector(::-webkit-scrollbar) {
-  [dir="ltr"] .md-sidebar__inner {
-    padding-right: calc(100% - 12.5rem);
-  }
-
-  [dir="rtl"] .md-sidebar__inner {
-    padding-right: calc(100% - 12.5rem);
-  }
+  max-width: 1440px;
 }
 
 .md-typeset {
-  font-size: 0.7rem;
+  font-size: 15px;
 }
 
-.md-content p,
-.md-content li {
-  font-size: 0.7rem;
+.md-content {
+  p {
+    font-size: 15px;
+  }
+  li {
+    font-size: 15px;
+
+    strong {
+      margin-left: 5px;
+    }
+  }
 }
 
-.md-content .footnote p {
-  font-size: 0.64rem;
+.md-typeset__table {
+  th {
+    font-size: 14.4px;
+  }
+  td {
+    font-size: 14.4px;
+  }
+}
+
+.md-typeset .tabbed-labels>label {
+  font-size: 14.4px;
+}
+
+.md-nav {
+  font-size: 14.4px;
 }
 
 thead {
   background-color: dimgray;
   color: #fff;
+}
+
+/* スマホ向け設定（幅430px以下） */
+@media screen and (max-width: 430px) {
+  .md-typeset {
+    font-size: 0.8rem;
+  }
+
+  .md-content p,
+  .md-content li {
+    font-size: 0.8rem;
+  }
+  
+  .md-typeset__table {
+    th {
+      font-size: 0.7rem;
+    }
+    td {
+      font-size: 0.7rem;
+    }
+  }
+
+  .md-typeset .tabbed-labels>label {
+    font-size: 0.7rem;
+  }
+
+  .md-nav {
+    font-size: 0.7rem;
+  }
+}
+
+/* 
+.md-content .footnote p {
+  font-size: 0.64rem;
 }
 
 .md-typeset a {
@@ -62,3 +100,4 @@ thead {
 .highlighttable .linenos {
   font-size: 12.6px;
 }
+*/
