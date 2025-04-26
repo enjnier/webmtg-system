@@ -2,11 +2,43 @@
 
 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)で作成したドキュメントを管理する。
 
+## 環境構築
+
+前提として以下のツールが導入されていること
+
+- [uv](https://github.com/astral-sh/uv)
+- [rye](https://github.com/astral-sh/rye)
+
+実行環境は`Mac`または`WSL（ubuntu）`を想定
+
+### 仮想環境の作成
+
+uvコマンドを使用して仮想環境を作成する。
+
+```bash
+uv sync
+```
+
+### ローカルサーバーを起動
+
+`docs/pyproject.toml`のスクリプトに起動コマンドを登録している。
+
+```bash
+[tool.rye.scripts]
+serve = "mkdocs serve -a 127.0.0.1:8100"
+```
+
+直接コマンドで実行する場合は
+
+```bash
+rye run serve
+```
+
+もしくは、`launch.json`に登録している構成`Docs: Serve MkDocs`を実行とデバッグから起動する。
+
 ## セットアップの備忘録
 
 初期状態（`docs`ディレクトリだけの状態）からmkdocs-materialが使えるようになるまでの手順を備忘録として残す。
-
-環境構築には [rye](https://github.com/astral-sh/rye) と [uv](https://github.com/astral-sh/uv) を使用している。
 
 ```bash
 // uvプロジェクトの作成 //
