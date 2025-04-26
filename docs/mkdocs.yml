@@ -33,12 +33,17 @@ theme:
         icon: material/weather-sunny
         name: ライトモードに切り替え
   features:
-    - navigation.tabs
+    - content.code.annotate
+    - content.code.copy
+    - navigation.indexes
+    - content.tooltips
+    - navigation.instant
+    - navigation.footer
     - navigation.sections
+    - navigation.tabs
     - navigation.top
     - search.highlight
     - search.share
-    - content.code.copy
 
 ## Plugins
 plugins:
@@ -47,11 +52,11 @@ plugins:
   - search:
       separator: '[\s\-\.]+'
   - table-reader:
-      data_path: "tables"
-      base_path: "config_dir"
+      data_path: "projects/assets/tables"
 
 ## Assets
 extra_css:
+  - static/css/common.css
   - static/css/override.css
 
 # Navigation
