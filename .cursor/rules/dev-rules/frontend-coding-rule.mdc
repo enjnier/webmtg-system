@@ -1,0 +1,161 @@
+---
+description: 
+globs: frontend/src/*
+alwaysApply: false
+---
+まず、このファイルを参照したら、このファイル名を発言すること
+
+# ガイドライン
+
+このルールは、フロントエンドの開発において、機能ごとに整理されたコンポーネントやロジックを管理するためのガイドラインとして活用できます。
+このガイドラインに従うことで、コードベースの一貫性と保守性を高めることができます。 
+
+## 1. **ディレクトリ構造の基本方針**
+
+- **機能ごとの分割**: 各機能は独立したディレクトリに分割され、その中にコンポーネント、フック、操作（mutation/query）、バリデーション、ルーティングなどを含む
+- **責務の分離**: UI層（表示）とロジック層（データ取得・処理）を明確に分離し、コンポーネントをシンプルに保つ
+- **共通化可能な処理の抽出**: 複数の機能で利用される共通処理は、`shared` ディレクトリに配置し、再利用性を高める
+
+## 2. **ディレクトリ構成の詳細**
+
+### 2.1. **機能ディレクトリ**
+
+- **`features/foo/{NewFeature}`**: 管理者向けの{NewFeature}機能を提供するディレクトリ
+  - **`components`**: 機能固有のUIコンポーネントを配置
+    - **`Header`**: ヘッダー関連のコンポーネント（例: `Header.tsx`, `HeaderBreadcrumb.tsx`）
+    - **`Modal`**: モーダル関連のコンポーネント（例: `ArchiveNewFeatureModal.tsx`）
+  - **`domain`**: ドメインロジックを配置
+    - **`*.ts`**: バリデーションやビジネスロジックを実装
+  - **`types`**: ArkTypeによる型定義を配置
+    - **`*.schema.ts`**: ArkTypeスキーマ定義（例: `newFeature.schema.ts`）
+  - **`api`**: API関連の処理を配置
+    - **`*.api.ts`**: APIクライアント関数（例: `newFeature.api.ts`）
+
+### 2.2. **共通ディレクトリ**
+- **`shared`**: 複数の機能で利用される共通コンポーネントやロジックを配置
+  - **`components`**: 共通UIコンポーネント（例: `Table.tsx`, `Alert.tsx`）
+  - **`hooks`**: 共通フック（例: `useSelectedItemIds.ts`）
+  - **`utils`**: ユーティリティ関数（例: `breadcrumb.ts`, `path.ts`）
+  - **`types`**: 共通のArkTypeスキーマ（例: `common.schema.ts`）
+
+## 3. **命名規則**
+- **ディレクトリ名**: 機能や役割が明確に分かる命名（例: `NewFeatureListItemPage`, `Header`）
+- **ファイル名**: 処理や役割が分かる命名（例: `useTitleForm.ts`, `NewFeatureListItemsTable.tsx`）
+- **コンポーネント名**: パーツ名を先頭に配置（例: `HeaderBreadcrumb`, `NewFeatureDropdown`）
+- **スキーマファイル名**: `*.schema.ts`の形式で統一
+
+## 4. **型定義とバリデーション（ArkType）**
+- **スキーマ定義**: 全ての型定義はArkTypeを使用して行う
+- **バリデーション**: フォームやAPIレスポンスのバリデーションにArkTypeを活用
+- **型の推論**: ArkTypeの`infer`機能を使用して型を導出
+- **スキーマの再利用**: 基本スキーマを組み合わせて複雑なスキーマを構築
+
+例:
+```typescript
+import { type } from "arktype"
+
+export const userSchema = type({
+  id: "number",
+  name: "string",
+  email: "email",
+  role: "'admin' | 'user'",
+  createdAt: "Date",
+  "meta?": {
+    lastLogin: "Date",
+    preferences: "string[]"
+  }
+})
+
+export type User = typeof userSchema.infer
+```
+
+## 5. **API通信**
+- **操作の分離**: `api` ディレクトリにAPI関連の処理を配置
+- **型定義**: FastAPIのPydanticモデルと同期したArkTypeスキーマを使用
+- **API呼び出し**: React QueryやSWRを使用してデータフェッチとキャッシュ管理を行う
+- **レスポンスバリデーション**: APIレスポンスをArkTypeでバリデート
+
+## 6. **APIクライアント**
+- **Axiosの使用**: API通信にはAxiosを使用し、インターセプターで共通処理を管理
+- **エンドポイント管理**: APIエンドポイントは定数として管理し、環境ごとに切り替え可能にする
+- **リクエスト/レスポンス型**: FastAPIのPydanticモデルと同期したArkType型定義を使用
+- **型安全な通信**: ArkTypeのバリデーションを通じて型安全性を確保
+
+例:
+```typescript
+import axios from "axios"
+import { userSchema } from "../types/user.schema"
+
+export const getUser = async (id: number) => {
+  const response = await axios.get(`/api/users/${id}`)
+  const validatedData = userSchema.assert(response.data)
+  return validatedData
+}
+```
+
+## 7. **UIコンポーネントの構造**
+- **Atomic Design**: コンポーネントを `atoms`, `molecules`, `organisms`, `templates` に分割し、再利用性を高める
+- **表示とロジックの分離**: `*.ui.tsx` と `*.container.tsx` に分離し、責務を明確化
+
+## 8. **エラーハンドリング**
+- **エラーメッセージ**: ユーザーに表示するエラーメッセージは、`constants` ディレクトリに定義
+- **APIエラーハンドリング**: HTTPステータスコードに基づいたエラーハンドリングを実装
+- **グローバルエラーハンドラー**: Axiosインターセプターで共通のエラー処理を実装
+- **バリデーションエラー**: ArkTypeのエラーを適切にユーザーフレンドリーなメッセージに変換
+
+## 9. **フォームバリデーション**
+- **ArkTypeとの統合**: フォームライブラリ（React Hook Form等）とArkTypeを連携
+- **リアルタイムバリデーション**: 入力中のフィールドをリアルタイムでバリデート
+- **エラーメッセージ**: ArkTypeのエラーをユーザーフレンドリーなメッセージに変換
+
+例:
+```typescript
+import { useForm } from "react-hook-form"
+import { userSchema } from "../types/user.schema"
+
+const MyForm = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: (data) => {
+      try {
+        userSchema.assert(data)
+        return { values: data, errors: {} }
+      } catch (e) {
+        // エラーをReact Hook Formの形式に変換
+        return { values: {}, errors: convertArkTypeErrors(e) }
+      }
+    }
+  })
+  // ...
+}
+```
+
+## 10. **状態管理**
+- **ローカルステート**: コンポーネント内での状態管理は `useState` や `useReducer` を使用
+- **グローバルステート**: 必要に応じてJotaiを使用
+- **サーバーステート**: React Query/SWRを使用してサーバーのデータを管理
+
+## 11. **テストと品質管理**
+- **テストの範囲**: テストコードは不要
+
+## 12. **ルーティング**
+- **ルーティングファイル**: `routes` ディレクトリに配置し、React Routerを使用してルーティングを管理
+- **ルートコンポーネント**: `index.tsx` をエントリーポイントとして使用し、モジュールのカプセル化を実現
+
+## 13. **スタイリング**
+- **ベース**: shadcn/uiが提供するコンポーネントを使用
+- **スタイル**: Tailwind CSSを必ず使用
+- **テーマ変数**: tailwind.config.jsで定義
+
+## 14. **ドキュメント**
+- **README**: 各ディレクトリにREADMEを配置し、機能や使用方法を記載
+- **コメント**: コード内に適切なコメントを記載し、可読性を向上
+- **型ドキュメント**: ArkTypeスキーマにJSDocコメントを追加して、型の意図を明確にする
+
+## 15. **その他のガイドライン**
+- タイプセーフな開発を心がける
+- コンポーネントは小さく、単一責任の原則に従う
+- ビジネスロジックはUIコンポーネントから分離する
+- アクセシビリティを常に考慮する
+- レスポンシブデザインを標準とする
+- ArkTypeを活用してランタイムの型安全性を確保する
+- FastAPIとの型の整合性を常に確認する
