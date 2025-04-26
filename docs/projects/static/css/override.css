@@ -1,39 +1,134 @@
+.admonition {
+  margin: 30px 0 !important;
+
+  &.note {
+    background-color: rgba(68, 138, 255, 0.02);
+  }
+
+  &.abstract {
+    background-color: rgba(0, 176, 255, 0.02);
+  }
+
+  &.info {
+    background-color: rgba(0, 184, 212, 0.02);
+  }
+
+  &.tip {
+    background-color: rgba(0, 191, 165, 0.02);
+  }
+
+  &.success {
+    background-color: rgba(0, 200, 83, 0.02);
+  }
+
+  &.question {
+    background-color: rgba(100, 221, 23, 0.02);
+  }
+
+  &.warning {
+    background-color: rgba(255, 145, 0, 0.02);
+  }
+
+  &.failure {
+    background-color: rgba(255, 82, 82, 0.02);
+  }
+
+  &.bug {
+    background-color: rgba(245, 0, 87, 0.02);
+  }
+
+  &.example {
+    background-color: rgba(124, 77, 255, 0.02);
+  }
+
+  &.quote {
+    background-color: rgba(158, 158, 158, 0.02);
+  }
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  p {
+    .highlight {
+      background-color: initial;
+    }
+  }
+}
+
 .md-grid {
   max-width: 1440px;
 }
 
 .md-typeset {
-  font-size: 15px;
-}
+  font-size: 14px;
 
-.md-content {
-  p {
-    font-size: 15px;
+  a {
+    margin: 0 3px;
   }
-  li {
-    font-size: 15px;
 
-    strong {
-      margin-left: 5px;
+  code {
+    font-size: 13.5px;
+    color: var(--md-code-hl-special-color);
+    line-height: 1.6;
+  }
+
+  ol li {
+    margin-bottom: 0.2em;
+  }
+
+  ul li {
+    margin-bottom: 0.2em;
+  }
+
+  pre > code {
+    font-size: 13.5px;
+    color: initial;
+    padding: 20px 25px;
+  }
+
+  .tabbed-labels > label {
+    font-size: 14px;
+  }
+
+  &__table {
+    th {
+      font-size: 14px;
+    }
+    td {
+      font-size: 14px;
     }
   }
 }
 
 .md-typeset__table {
-  th {
-    font-size: 14.4px;
-  }
-  td {
-    font-size: 14.4px;
-  }
+  margin: 20px 0 15px 0;
 }
 
-.md-typeset .tabbed-labels>label {
-  font-size: 14.4px;
+.md-content {
+  p {
+    font-size: 14px;
+  }
+
+  li {
+    font-size: 14px;
+
+    strong {
+      margin-left: 5px;
+    }
+  }
+
+  .admonition p {
+    font-size: 12px;
+  }
+
+  .footnote p {
+    font-size: 13.5px;
+  }
 }
 
 .md-nav {
-  font-size: 14.4px;
+  font-size: 13.5px;
 }
 
 thead {
@@ -41,63 +136,65 @@ thead {
   color: #fff;
 }
 
-/* スマホ向け設定（幅430px以下） */
-@media screen and (max-width: 430px) {
-  .md-typeset {
-    font-size: 0.8rem;
+.highlight {
+  margin: 30px 0;
+}
+
+.highlight:has(> .filename) {
+  > span {
+    border-radius: 5px 5px 0 0;
+    padding: 14px 25px;
   }
 
-  .md-content p,
-  .md-content li {
-    font-size: 0.8rem;
-  }
-  
-  .md-typeset__table {
-    th {
-      font-size: 0.7rem;
-    }
-    td {
-      font-size: 0.7rem;
-    }
-  }
-
-  .md-typeset .tabbed-labels>label {
-    font-size: 0.7rem;
-  }
-
-  .md-nav {
-    font-size: 0.7rem;
+  code {
+    border-radius: 0 0 5px 5px;
   }
 }
 
-/* 
-.md-content .footnote p {
-  font-size: 0.64rem;
-}
-
-.md-typeset a {
-  margin: 0 3px;
-}
-
-.md-typeset code {
-  font-size: 12.6px;
-  color: var(--md-code-hl-special-color);
-}
-
-.md-typeset pre > code {
-  font-size: 12.6px;
-  color: initial;
+.highlight:not(:has(> .filename)) code {
+  border-radius: 5px;
 }
 
 .highlight > span {
   color: var(--md-code-hl-special-color) !important;
 }
 
-.highlighttable tr {
-  font-size: 0.75rem;
+.highlighttable {
+  tr {
+    font-size: 13.5px;
+  }
+
+  .linenos {
+    font-size: 13.5px;
+  }
 }
 
-.highlighttable .linenos {
-  font-size: 12.6px;
+@media screen and (max-width: 430px) {
+  .md-typeset {
+    font-size: 0.8rem;
+
+    .tabbed-labels > label {
+      font-size: 0.7rem;
+    }
+
+    &__table {
+      th {
+        font-size: 0.7rem;
+      }
+      td {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .md-content {
+    p,
+    li {
+      font-size: 0.8rem;
+    }
+  }
+
+  .md-nav {
+    font-size: 0.7rem;
+  }
 }
-*/
