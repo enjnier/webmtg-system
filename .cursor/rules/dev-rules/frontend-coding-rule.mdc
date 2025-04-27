@@ -20,7 +20,7 @@ alwaysApply: false
 
 ### 2.1. **機能ディレクトリ**
 
-- **`features/foo/{NewFeature}`**: 管理者向けの{NewFeature}機能を提供するディレクトリ
+- **`features/{NewFeature}`**: 管理者向けの{NewFeature}機能を提供するディレクトリ
   - **`components`**: 機能固有のUIコンポーネントを配置
     - **`Header`**: ヘッダー関連のコンポーネント（例: `Header.tsx`, `HeaderBreadcrumb.tsx`）
     - **`Modal`**: モーダル関連のコンポーネント（例: `ArchiveNewFeatureModal.tsx`）
