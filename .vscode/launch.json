@@ -13,6 +13,17 @@
             ],
             "cwd": "${workspaceFolder}/docs",
             "console": "integratedTerminal"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Frontend: Debug Vite",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/frontend",
+            "sourceMapPathOverrides": {
+                "/__vite-root/*": "${webRoot}/*"
+            },
+            "preLaunchTask": "pnpm: dev - frontend"
         }
     ]
 } 
