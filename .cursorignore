@@ -1,0 +1,16 @@
+# Add directories or file patterns to ignore during indexing (e.g. foo/ or *.csv)
+
+# ビルド生成物、環境を除外
+build/
+venv/
+node_modules/
+
+# ログファイル・キャッシュファイルを一括除外
+*.log
+__pycache__/
+
+# テストファイルを除外
+test/
+
+# ドキュメントファイルを除外
+docs/
