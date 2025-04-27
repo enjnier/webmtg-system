@@ -211,3 +211,123 @@
     -import "./index.css";
     +import "./global.css";
     ```
+
+## ディレクトリ構造を変更
+
+### ディレクトリ構造の作成
+
+```bash
+# features ディレクトリ構造の作成
+mkdir -p src/features/auth/{components,domain,types,api,routes}
+mkdir -p src/features/user/{components,domain,types,api,routes}
+
+# shared ディレクトリ構造の作成
+mkdir -p src/shared/{components/ui,hooks,utils,types,constants}
+
+# app/routes ディレクトリの作成
+mkdir -p src/app/routes
+```
+
+### 空のディレクトリに.gitkeepを追加
+
+```bash
+find src -type d -empty -exec touch {}/.gitkeep \;
+```
+
+### ファイルの移動と整理
+
+```bash
+# グローバルスタイルの移動
+mv src/global.css src/app/globals.css
+
+# shadcn/ui コンポーネントの移動
+mv src/components/ui/* src/shared/components/ui/
+
+# ユーティリティ関数の名称変更
+mv src/lib/utils.ts src/lib/cn.ts
+```
+
+```bash
+rm src/assets/react.svg
+rm src/App.css
+mv src/App.tsx src/app.tsx
+rm -fr src/assets/
+rm -fr src/components/
+```
+
+### エントリーポイントの更新（main.tsx）
+
+```diff
+ import { StrictMode } from "react";
+ import { createRoot } from "react-dom/client";
+-import "./global.css";
++import "./app/globals.css";
+-import App from "./App.tsx";
++import App from "./app.tsx";
+
+ createRoot(document.getElementById("root")!).render(
+   <StrictMode>
+     <App />
+   </StrictMode>
+ );
+```
+
+### components.jsonの更新
+
+```diff
+ {
+   "$schema": "https://ui.shadcn.com/schema.json",
+   "style": "new-york",
+   "rsc": false,
+   "tsx": true,
+   "tailwind": {
+     "config": "",
+-    "css": "src/global.css",
++    "css": "src/app/globals.css",
+     "baseColor": "neutral",
+     "cssVariables": true,
+     "prefix": ""
+   },
+   "aliases": {
+-    "components": "@/components",
++    "components": "@/shared/components",
+-    "utils": "@/lib/utils",
++    "utils": "@/lib/cn",
+-    "ui": "@/components/ui",
++    "ui": "@/shared/components/ui",
+     "lib": "@/lib",
+-    "hooks": "@/hooks"
++    "hooks": "@/shared/hooks"
+   },
+   "iconLibrary": "lucide"
+ }
+```
+
+### app.tsxの更新
+
+```diff
+-import { Button } from "@/components/ui/button";
++import { Button } from "@/shared/components/ui/button";
+
+ function App() {
+   return (
+      <div className="flex flex-col items-center justify-center min-h-svh">
+        <Button>Click me</Button>
+      </div>
+   );
+ }
+ 
+ export default App;
+```
+
+### button.tsxの更新
+
+```diff
+ /* eslint-disable react-refresh/only-export-components */
+ import * as React from "react";
+ import { Slot } from "@radix-ui/react-slot";
+ import { cva, type VariantProps } from "class-variance-authority";
+
+-import { cn } from "@/lib/utils";
++import { cn } from "@/lib/cn";
+```
