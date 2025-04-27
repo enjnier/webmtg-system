@@ -5,19 +5,6 @@
 .DS_Store
 Thumbs.db
 
-# VSCode settings
-# .vscode/*
-# !.vscode/extensions.json
-# !.vscode/*.sample
-# .vscode/launch.json
-# .vscode/settings.json
-
-# Documentation (MkDocs)
-docs/site/
-docs/.rye/
-docs/__pycache__/
-docs/**/__pycache__/
-
 # Python general
 *.pyc
 *.pyo
@@ -31,6 +18,12 @@ docs/**/__pycache__/
 env/
 venv/
 .pytest_cache/
+
+# Document
+docs/site/
+docs/.rye/
+docs/__pycache__/
+docs/**/__pycache__/
 
 # Logs
 logs/
