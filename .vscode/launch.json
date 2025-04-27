@@ -1,29 +1,25 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Docs: Serve MkDocs",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "mkdocs",
-            "args": [
-                "serve",
-                "-a",
-                "127.0.0.1:8100"
-            ],
-            "cwd": "${workspaceFolder}/docs",
-            "console": "integratedTerminal"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Frontend: Debug Vite",
-            "url": "http://localhost:5173",
-            "webRoot": "${workspaceFolder}/frontend",
-            "sourceMapPathOverrides": {
-                "/__vite-root/*": "${webRoot}/*"
-            },
-            "preLaunchTask": "pnpm: dev - frontend"
-        }
-    ]
-} 
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docs: Serve MkDocs",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "mkdocs",
+      "args": ["serve", "-a", "127.0.0.1:8100"],
+      "cwd": "${workspaceFolder}/docs",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Frontend: Debug Vite",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/frontend",
+      "sourceMapPathOverrides": {
+        "/__vite-root/*": "${webRoot}/*"
+      },
+      "preLaunchTask": "pnpm: dev - frontend"
+    }
+  ]
+}
