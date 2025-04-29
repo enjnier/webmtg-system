@@ -24,7 +24,7 @@ uv sync
 PYTHONPATHを設定するシェルスクリプトを実行する。
 
 ```bash
-./setup_python_path.sh
+./scripts/setup_python_path.sh
 ```
 
 現在のディレクトリ（`backend`）とソースディレクトリ（`backend/src`）が対象となる。
