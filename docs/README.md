@@ -4,12 +4,12 @@
 
 ## 環境構築
 
-前提として以下のツールが導入されていること
+実行環境は`Mac`または`WSL（ubuntu）`を想定している。
 
-- [uv](https://github.com/astral-sh/uv)
-- [rye](https://github.com/astral-sh/rye)
+前提として以下のツールが導入されていること。
 
-実行環境は`Mac`または`WSL（ubuntu）`を想定
+- [uv](https://github.com/astral-sh/uv)：仮想環境の構築に使用
+- [rye](https://github.com/astral-sh/rye)：仮想環境では使わず、コマンド関係で使用
 
 ### 仮想環境の作成
 
@@ -38,10 +38,11 @@ rye run serve
 
 ## セットアップの備忘録
 
-初期状態（`docs`ディレクトリだけの状態）からmkdocs-materialが使えるようになるまでの手順を備忘録として残す。
+docsディレクトリをセットアップした時の手順を備忘録として残す。
+
+### uvプロジェクトの作成
 
 ```bash
-// uvプロジェクトの作成 //
 $ uv init docs
 Initialized project `docs` at `/home/enjn/dev/webmtg-system/docs`
 
@@ -52,22 +53,17 @@ $ tree -a
 ├── README.md
 ├── main.py
 └── pyproject.toml
-
-// main.pyを削除 //
-$ rm -fr main.py
-
-$ cat pyproject.toml
-[project]
-name = "docs"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12.3"
-dependencies = []
 ```
 
+### main.pyを削除
+
 ```bash
-// 必要なパッケージを追加 //
+rm -fr main.py
+```
+
+### 必要なパッケージを追加
+
+```bash
 $ uv add mkdocs mkdocs-material mkdocs-glightbox mkdocs-table-reader-plugin mkdocs-monorepo-plugin
 Using CPython 3.12.3
 Creating virtual environment at: .venv
@@ -115,13 +111,13 @@ Installed 39 packages in 207ms
  + watchdog==6.0.0
 ```
 
+### mkdocsプロジェクトを作成
+
 ```bash
-// mkdocsプロジェクトを作成 //
 $ uv run mkdocs new .
 INFO    -  Writing config file: ./mkdocs.yml
 INFO    -  Writing initial docs: ./docs/index.md
 
-// docsディレクトリをprojectsにリネーム //
 $ mv docs projects
 ```
 
