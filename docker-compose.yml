@@ -1,4 +1,5 @@
 services:
+  # document
   webmtg-document:
     container_name: webmtg-document
     build:
@@ -11,6 +12,7 @@ services:
       - ./docs/mkdocs.yml:/app/mkdocs.yml
     restart: unless-stopped
 
+  # frontend
   webmtg-frontend:
     container_name: webmtg-frontend
     build:
@@ -22,3 +24,20 @@ services:
     ports:
       - "5173:5173"
     command: sh -c "pnpm install && pnpm dev --host 0.0.0.0"
+
+  # backend
+  webmtg-backend:
+    container_name: webmtg-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONPATH=/app/src
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+    command: sh -c "uv run uvicorn src.presentation.main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - "8000:8000"

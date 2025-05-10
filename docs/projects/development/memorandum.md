@@ -320,7 +320,6 @@ touch Dockerfile
 #### 環境変数の設定
 
 ```bash
-# 設定例
 echo 'export DATABASE_URL=postgresql://postgres:@192.168.50.194:49156/webmtgdb' >> .bashrc
 ```
 
@@ -373,10 +372,32 @@ $ tree
 +target_metadata = Base.metadata
 ```
 
-### 疎通確認
+#### 疎通確認
 
 ```bash
 $ alembic current
 INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
 INFO  [alembic.runtime.migration] Will assume transactional DDL.
 ```
+
+### Docker
+
+----
+
+#### 環境変数の設定
+
+```bash
+echo 'export JWT_SECRET=nlfPjP7g4Ohvvw8pfyGIWvpWyFlNfNcwaU+Y+I7IRbOrpLeK6/3aS2lU6F5U03FIFWC53Dm5kuDNk/lSlQRXhw==' >> .bashrc
+echo 'export JWT_EXPIRES_IN=1' >> .bashrc
+```
+
+#### 疎通確認
+
+- Dockerfile
+- docker-compose.yml
+
+```bash
+docker compose up -d webmtg-backend
+```
+
+<http://localhost:8000/docs>
