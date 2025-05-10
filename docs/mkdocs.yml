@@ -76,10 +76,11 @@ nav:
     - 画面共有: features/screen-sharing.md
     - チャット機能: features/chat.md
   - 開発ガイド:
-    - 環境構築: development/setup.md
+    - 環境構築: development/setup.md    
     - コーディング規約: development/coding-standards.md
     - テスト手順: development/testing.md
     - デバッグ方法: development/debugging.md
+    - 備忘録: development/memorandum.md
   - APIリファレンス:
     - API概要: api/index.md
     - エンドポイント一覧: api/endpoints.md
