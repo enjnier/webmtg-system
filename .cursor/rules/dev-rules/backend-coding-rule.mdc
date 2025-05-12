@@ -1,0 +1,282 @@
+---
+description: 
+globs: backend/src/*,backend/tests/*
+alwaysApply: false
+---
+まず、このファイルを参照したら、このファイル名を発言すること
+
+# ガイドライン
+
+このルールは、バックエンドの開発において、クリーンアーキテクチャとDDDの原則に基づいたコードベースを維持するためのガイドラインです。
+このガイドラインに従うことで、コードの一貫性、保守性、および拡張性を高めることができます。
+
+## 1. **アーキテクチャの基本方針**
+
+- **レイヤーの分離**: アプリケーションは明確に分離された4つのレイヤー（ドメイン、アプリケーション、インフラストラクチャ、プレゼンテーション）で構成される
+- **依存関係の方向**: 外側のレイヤーが内側のレイヤーに依存し、内側のレイヤーは外側のレイヤーに依存しない
+- **ドメイン中心設計**: ビジネスロジックはドメインレイヤーに集中させる
+- **責務の明確化**: 各レイヤーおよびコンポーネントは単一責任の原則に従う
+
+## 2. **レイヤー構成の詳細**
+
+### 2.1. **ドメインレイヤー (`domain`)**
+
+- **エンティティ (`entities`)**: ビジネスの中核となるオブジェクト
+  - 識別子を持ち、ライフサイクルを通じて同一性を保持するオブジェクト
+  - ビジネスルールやロジックを含む
+- **値オブジェクト (`value_objects`)**: 属性のみを持ち、同一性を持たないオブジェクト
+  - イミュータブルであるべき
+  - 等価性は全ての属性の値が等しいかどうかで判断
+- **例外 (`exceptions`)**: ドメイン固有の例外クラス
+- **ドメインサービス**: エンティティに属さないドメインロジック
+
+### 2.2. **アプリケーションレイヤー (`application`)**
+
+- **ユースケース (`use_cases`)**: アプリケーション固有のビジネスロジック
+  - 特定のユースケースに対応するロジックを実装
+  - ドメインオブジェクトを操作して結果を返す
+- **インターフェース (`interfaces`)**: リポジトリやサービスのインターフェース定義
+  - 依存性逆転の原則に基づき、インフラストラクチャレイヤーの実装から分離
+- **DTO (`dtos`)**: データ転送オブジェクト
+  - レイヤー間でのデータ交換のための単純なデータ構造
+- **サービス (`services`)**: アプリケーション固有のサービス
+  - 複数のユースケースで共有されるロジックを実装
+
+### 2.3. **インフラストラクチャレイヤー (`infrastructure`)**
+
+- **リポジトリ実装 (`repositories`)**: データストレージとのインタラクション
+  - アプリケーションレイヤーで定義されたインターフェースの実装
+- **データベースモデル (`database/models`)**: ORMモデル
+  - SQLAlchemyモデルなど、データベースとのマッピングを定義
+- **設定 (`config`)**: アプリケーション設定の管理
+  - 環境変数、設定ファイルの読み込み
+  - Pydanticを使用した設定の検証
+- **外部サービス統合**: 外部APIやサービスとの連携
+
+### 2.4. **プレゼンテーションレイヤー (`presentation`)**
+
+- **API (`api`)**: RESTful APIのエンドポイント定義
+  - FastAPIのルーター、エンドポイント
+  - リクエスト/レスポンスのバリデーション
+- **スキーマ (`schemas`)**: API入出力のスキーマ定義
+  - Pydanticモデルを使用
+- **依存関係 (`dependencies`)**: エンドポイントの依存関係
+  - 認証、認可
+  - リクエストのバリデーション
+- **エラーハンドラー (`error_handlers`)**: 例外処理とエラーレスポンスの生成
+
+## 3. **命名規則**
+
+- **クラス名**: パスカルケース（例: `UserRepository`, `CreateUserUseCase`）
+- **変数名/関数名**: スネークケース（例: `user_id`, `get_user_by_email`）
+- **定数**: 大文字のスネークケース（例: `MAX_RETRY_COUNT`, `DEFAULT_PAGE_SIZE`）
+- **プライベート変数/メソッド**: アンダースコア接頭辞（例: `_validate_input`, `_query_builder`）
+- **型変数**: 型ヒントを明示的に記載（例: `user: User`, `items: List[Item]`）
+
+### 3.1. **ファイル命名**
+
+- **エンティティ**: 単数形の名詞（例: `user.py`, `order.py`）
+- **リポジトリ**: `{エンティティ名}_repository.py`（例: `user_repository.py`）
+- **ユースケース**: 動詞+名詞（例: `create_user.py`, `update_order_status.py`）
+- **例外**: `{名前}_exception.py`（例: `validation_exception.py`）
+- **スキーマ**: `{名前}_schema.py`（例: `user_schema.py`）
+
+## 4. **型定義とバリデーション**
+
+- **型ヒントの使用**: すべての関数と変数に型ヒントを付ける
+- **Pydanticモデル**: データバリデーションとシリアライズにPydanticを使用
+- **ドメイン検証**: ドメインロジックによる値の検証をエンティティ内で行う
+- **入力検証**: API層ではPydanticによる入力値の検証を行う
+
+例:
+```python
+from pydantic import BaseModel, EmailStr, Field
+
+class UserCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+```
+
+## 5. **例外処理**
+
+- **カスタム例外**: ドメイン固有の例外を定義し、適切に使用する
+- **例外階層**: 例外は明確な階層を持つべき
+- **例外変換**: 低レベルの例外は上位レイヤーで適切に変換する
+- **例外メッセージ**: ユーザーにわかりやすいエラーメッセージを提供する
+
+例:
+```python
+class DomainException(Exception):
+    """ドメイン例外のベースクラス"""
+    pass
+
+class EntityNotFoundException(DomainException):
+    """エンティティが見つからない場合の例外"""
+    def __init__(self, entity_type: str, entity_id: Any):
+        self.entity_type = entity_type
+        self.entity_id = entity_id
+        message = f"{entity_type} with id {entity_id} not found"
+        super().__init__(message)
+```
+
+## 6. **依存性注入**
+
+- **コンストラクタ注入**: 依存するオブジェクトはコンストラクタで注入する
+- **インターフェース依存**: 具体クラスではなくインターフェースに依存する
+- **FastAPI依存関係**: FastAPIの依存関係注入システムを活用する
+
+例:
+```python
+class UserService:
+    def __init__(self, user_repository: UserRepository):
+        self._user_repository = user_repository
+
+# FastAPIでの依存関係注入
+def get_user_service(
+    user_repository: UserRepository = Depends(get_user_repository)
+) -> UserService:
+    return UserService(user_repository)
+```
+
+## 7. **データベースアクセス**
+
+- **リポジトリパターン**: データアクセスをリポジトリに抽象化
+- **トランザクション管理**: 適切なスコープでトランザクションを管理
+- **N+1問題の回避**: 効率的なクエリ実行と関連データの取得
+- **マイグレーション**: Alembicを使用したデータベースマイグレーション
+
+例:
+```python
+class SqlAlchemyUserRepository(UserRepository):
+    def __init__(self, session: Session):
+        self._session = session
+    
+    def get_by_id(self, id: int) -> Optional[User]:
+        user_model = self._session.query(UserModel).filter(UserModel.id == id).first()
+        if not user_model:
+            return None
+        return self._to_entity(user_model)
+```
+
+## 8. **テスト**
+
+- **ユニットテスト**: 個々のコンポーネントの単体テスト
+- **統合テスト**: 複数のコンポーネントを組み合わせたテスト
+- **モック**: 外部依存をモックしてテストを分離
+- **テストカバレッジ**: 高いテストカバレッジを目指す
+- **テストフィクスチャ**: 再利用可能なテストデータを作成
+
+例:
+```python
+def test_create_user_use_case():
+    # 準備
+    user_repo_mock = MagicMock(spec=UserRepository)
+    user_repo_mock.exists_by_email.return_value = False
+    
+    use_case = CreateUserUseCase(user_repo_mock)
+    
+    # 実行
+    result = use_case.execute(
+        name="Test User",
+        email="test@example.com",
+        password="password123"
+    )
+    
+    # 検証
+    assert result.id is not None
+    user_repo_mock.save.assert_called_once()
+```
+
+## 9. **非同期処理**
+
+- **非同期関数**: `async`/`await`を一貫して使用
+- **非同期リポジトリ**: データベースアクセスは非同期で行う
+- **並行処理**: 必要に応じて`asyncio`の並行処理を活用
+- **バックグラウンドタスク**: 長時間実行タスクはバックグラウンドワーカーに委譲
+
+例:
+```python
+async def get_user(user_id: int, user_service: UserService = Depends(get_user_service)):
+    user = await user_service.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+```
+
+## 10. **セキュリティ**
+
+- **認証**: JWTなどの標準的な認証方式を使用
+- **認可**: ロールベースのアクセス制御を実装
+- **パスワード管理**: ハッシュ化と適切なソルトを使用
+- **入力サニタイズ**: すべてのユーザー入力を検証およびサニタイズ
+- **HTTPS**: 本番環境では常にHTTPSを使用
+
+## 11. **ロギング**
+
+- **構造化ロギング**: JSONなど構造化形式でログを出力
+- **ログレベル**: 適切なログレベル（DEBUG, INFO, WARNINGなど）を使い分ける
+- **コンテキスト情報**: リクエストIDなどのコンテキスト情報をログに含める
+- **機密情報**: パスワードなどの機密情報はログに出力しない
+
+例:
+```python
+logger = logging.getLogger(__name__)
+
+async def create_user(user_data: UserCreate):
+    logger.info(f"Creating new user with email: {user_data.email}")
+    try:
+        user = await user_service.create_user(user_data)
+        logger.info(f"User created successfully with id: {user.id}")
+        return user
+    except DuplicateEmailError:
+        logger.warning(f"Attempted to create user with existing email: {user_data.email}")
+        raise HTTPException(status_code=400, detail="Email already registered")
+```
+
+## 12. **環境設定**
+
+- **設定管理**: Pydanticを使用した環境変数の検証と型変換
+- **環境分離**: 開発/テスト/本番環境の設定を明確に分離
+- **シークレット管理**: 機密情報は環境変数または専用のシークレット管理サービスを使用
+
+例:
+```python
+from pydantic import BaseSettings, PostgresDsn, validator
+
+class Settings(BaseSettings):
+    APP_ENV: str = "development"
+    DEBUG: bool = False
+    DATABASE_URL: PostgresDsn
+    JWT_SECRET: str
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRE_MINUTES: int = 60
+    
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+```
+
+## 13. **パフォーマンス最適化**
+
+- **データベース最適化**: インデックス、クエリ最適化
+- **キャッシュ**: 頻繁にアクセスされるデータのキャッシュ
+- **ページネーション**: 大量データの効率的な取得
+- **バルク操作**: 大量のデータを処理する場合はバルク操作を活用
+
+## 14. **ドキュメント**
+
+- **APIドキュメント**: OpenAPIを使用した自動ドキュメント生成
+- **ドキュメントコメント**: クラスと関数にはdocstringを記述
+- **使用例**: 重要なコンポーネントには使用例を提供
+- **アーキテクチャドキュメント**: 全体のアーキテクチャ設計を文書化
+
+## 15. **その他のガイドライン**
+
+- **SOLID原則**: 単一責任、オープン・クローズド、リスコフの置換、インターフェース分離、依存性逆転の原則を遵守
+- **DRY原則**: コードの重複を避ける
+- **KISS原則**: シンプルさを保つ
+- **ファイルサイズ**: 1ファイルは適切なサイズに保つ（200行以下を推奨）
+- **関数サイズ**: 関数は単一の責任を持ち、短く保つ（50行以下を推奨）
+- **コメント**: コードで自明でない部分にのみコメントを書く
+- **バージョン管理**: 意味のあるコミットメッセージを書く
