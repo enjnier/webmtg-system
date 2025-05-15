@@ -64,3 +64,17 @@ PYTHONPATHを設定するシェルスクリプトを実行する。
 現在のディレクトリ（`backend`）とソースディレクトリ（`backend/src`）が対象となる。
 
 ### マイグレーション
+
+alembicディレクトリにて実行する。
+
+以下のコマンドでマイグレーションファイルが生成される。
+
+```bash
+rye run makemigrations [名前]
+```
+
+以下のコマンドでマイグレーションが実行される。
+
+```bash
+rye run migrate
+```

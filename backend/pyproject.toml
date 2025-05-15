@@ -24,3 +24,5 @@ dev = [
 
 [tool.rye.scripts]
 server = "uvicorn src.presentation.main:app --reload --host 0.0.0.0 --port 8000"
+makemigrations = ["alembic", "revision", "--autogenerate", "-m"]
+migrate = ["alembic", "upgrade", "head"]
