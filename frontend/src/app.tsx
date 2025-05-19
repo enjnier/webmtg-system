@@ -1,9 +1,9 @@
-import { Button } from '@/shared/components/ui/button'
+import { LoginForm } from '@/features/auth/components/login-form'
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
+    <div className="flex flex-col items-center justify-center min-h-svh bg-slate-50">
+      <LoginForm />
     </div>
   )
 }
