@@ -3,8 +3,6 @@ description:
 globs: backend/src/*,backend/tests/*
 alwaysApply: false
 ---
-まず、このファイルを参照したら、このファイル名を発言すること
-
 # ガイドライン
 
 このルールは、バックエンドの開発において、クリーンアーキテクチャとDDDの原則に基づいたコードベースを維持するためのガイドラインです。
