@@ -33,6 +33,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/app
+      - /app/.venv
     environment:
       - PYTHONPATH=/app/src
       - DATABASE_URL=${DATABASE_URL}
